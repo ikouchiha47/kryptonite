@@ -1,11 +1,26 @@
 var person = "<Enter Full Or Part of UserName or Number displayed in chat boxes>"
 
 var observer = (function(person, observer) {
+    let rx = new RegExp(person.split(" ").join("|"))
+
     function makeVanish() {
-        let elements = document.querySelectorAll(".emoji-text-clickable")
-        if (elements && elements.length > 0) {
-            Array.from(elements)
-                    .filter(e => e.innerText.match( new RegExp(person.split(" ").join("|")) ))
+        let lastMatch = "";
+        let elements = document.querySelectorAll(".emoji-text-clickable");
+        
+        if ( elements && elements.length > 0 ) {
+            Array.from( elements )
+                    .filter(e => {
+                        if( e.innerText.trim() == "" && lastMatch.match(rx) ) return true
+                
+                        let match = e.innerText.match( rx )
+                        if(match) {
+                            lastMatch = match[0]
+                            return true
+                        }
+                
+                        lastMatch = "";
+                        return false;
+                    })
                     .forEach(e => e.parentElement.parentElement.remove())
         }
     }
