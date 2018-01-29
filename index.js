@@ -1,7 +1,7 @@
-var person = "<Enter Full Or Part of UserName or Number displayed in chat boxes>"
+var person = "<Enter Full Or Part of UserName or Number displayed in chat boxes, separate multiple users by comma>"
 
 var observer = (function(person, observer) {
-    let rx = new RegExp(person.split(" ").join("|"))
+    let rx = new RegExp(person.split(',').join('|'))
 
     function makeVanish() {
         let lastMatch = "";
